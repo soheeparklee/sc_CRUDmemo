@@ -1,16 +1,8 @@
 from fastapi import FastAPI
+from fastapi.staticfiles import StaticFiles
+from pydantic import BaseModel
 
 app = FastAPI()
 
 
-@app.get("/")
-async def root():
-    return {"message": "Hello World"}
-
-@app.get("/hello")
-async def sayHi():
-    return {"message": "Hello Welcome"}
-
-@app.get("/bye")
-async def sayBye():
-    return {"message": "See you again"}
+app.mount("/", StaticFiles(directory="static"), name="static")
