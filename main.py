@@ -2,7 +2,19 @@ from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 
+class Memo(BaseModel):
+    id: str
+    content: str
+
+memos =[]
+
 app = FastAPI()
 
 
-app.mount("/", StaticFiles(directory="static"), name="static")
+
+@app.post("/memos")
+def create_memo(memo:Memo):
+    memos.append(memo)
+    return "memo successfully added"
+
+app.mount("/", StaticFiles(directory="static", html=True), name="static")
