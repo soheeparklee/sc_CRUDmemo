@@ -17,4 +17,9 @@ def create_memo(memo:Memo):
     memos.append(memo)
     return "memo successfully added"
 
+@app.get("/memos")
+def read_memo():
+    return memos
+
 app.mount("/", StaticFiles(directory="static", html=True), name="static")
+

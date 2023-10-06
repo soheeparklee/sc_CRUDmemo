@@ -1,4 +1,25 @@
+//add memo that we got from server on HTML
+function displayMemo(memo){
+    const ul= document.querySelector("#memo-ul");
+    const li= document.createElement("li");
+    li.innerText = `[id:${memo.id}] ${memo.content}`;
+    ul.appendChild(li);
+}
 
+//read the memo that is posted on server GET
+async function readMemo(){
+    const res = await fetch('/memos')
+    const jsonRes= await res.json();
+    //need to clear ul everytime we read memo
+    const ul= document.querySelector("#memo-ul");
+    ul.innerHTML = "";
+    //jsonRes is an array
+    //go for each element in jsonRes array
+    jsonRes.forEach(displayMemo);
+}
+
+
+//post memo on server POST
 async function createMemo(value){
     const res= await fetch("/memos", {
         method: "POST",
@@ -6,12 +27,13 @@ async function createMemo(value){
             "Content-Type": "application/json",
         },
         body: JSON.stringify({
-            id: new Date(),
+            id: new Date().getTime(),
             content: value,
         }),
     }); 
     const jsonRes= await res.json();
     console.log(jsonRes);
+    readMemo();
 }
 
 //what happens when submit btn is pressed
@@ -27,3 +49,5 @@ function handleSubmit(event){
 const form = document.querySelector("#memo-form");
 form.addEventListener("submit", handleSubmit);
 
+
+readMemo();
