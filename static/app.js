@@ -1,9 +1,19 @@
+//delete memo
+async function deleteMemo(event){
+    const id= event.target.dataset.id;
+    const res= await fetch(`/memos/${id}`, {
+        //when delete, use method DELETE
+        method: "DELETE",
+    }); 
+    readMemo();
+}
+
 //update memo
 async function editMemo(event){
     //get id of the btn we pressed, so we know which btn to update
     const id= event.target.dataset.id;
     const editInput= prompt("update your memo");
-    const res= await fetch(`/memo/${id}`, {
+    const res= await fetch(`/memos/${id}`, {
         //when updating, use method PUT
         method: "PUT",
         headers: {
@@ -24,16 +34,22 @@ function displayMemo(memo){
     const li= document.createElement("li");
     //make update btn
     const updateBtn= document.createElement("button");
+    //make delete btn
+    const deleteBtn = document.createElement("button");
 
     li.innerText = `[id:${memo.id}] ${memo.content}`;
     updateBtn.innerText = "update";
     updateBtn.addEventListener("click", editMemo);
+    deleteBtn.innerText= "delete";
+    deleteBtn.addEventListener("click", deleteMemo)
 
     //add id info to btn, so we know which btn was pressed
     updateBtn.dataset.id= memo.id;
+    deleteBtn.dataset.id= memo.id;
 
     ul.appendChild(li);
     li.appendChild(updateBtn);
+    li.appendChild(deleteBtn);
 
 }
 
