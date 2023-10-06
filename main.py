@@ -21,5 +21,15 @@ def create_memo(memo:Memo):
 def read_memo():
     return memos
 
+
+
+@app.put("/memo/{memo_id}")
+def put_memo(req_memo:Memo):
+    for memo in memos:
+        if memo.id == req_memo.id:
+            memo.content = req_memo.content
+            return "successfully updated"
+    return "no such memo"
+
 app.mount("/", StaticFiles(directory="static", html=True), name="static")
 

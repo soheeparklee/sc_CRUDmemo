@@ -1,9 +1,40 @@
+//update memo
+async function editMemo(event){
+    //get id of the btn we pressed, so we know which btn to update
+    const id= event.target.dataset.id;
+    const editInput= prompt("update your memo");
+    const res= await fetch(`/memo/${id}`, {
+        //when updating, use method PUT
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            id: id,
+            content: editInput,
+        }),
+    }); 
+    readMemo();
+}
+
+
 //add memo that we got from server on HTML
 function displayMemo(memo){
     const ul= document.querySelector("#memo-ul");
     const li= document.createElement("li");
+    //make update btn
+    const updateBtn= document.createElement("button");
+
     li.innerText = `[id:${memo.id}] ${memo.content}`;
+    updateBtn.innerText = "update";
+    updateBtn.addEventListener("click", editMemo);
+
+    //add id info to btn, so we know which btn was pressed
+    updateBtn.dataset.id= memo.id;
+
     ul.appendChild(li);
+    li.appendChild(updateBtn);
+
 }
 
 //read the memo that is posted on server GET
@@ -12,7 +43,7 @@ async function readMemo(){
     const jsonRes= await res.json();
     //need to clear ul everytime we read memo
     const ul= document.querySelector("#memo-ul");
-    ul.innerHTML = "";
+    ul.innerText = "";
     //jsonRes is an array
     //go for each element in jsonRes array
     jsonRes.forEach(displayMemo);
