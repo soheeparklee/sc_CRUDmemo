@@ -41,7 +41,7 @@ function displayMemo(memo){
     updateBtn.innerText = "update";
     updateBtn.addEventListener("click", editMemo);
     deleteBtn.innerText= "delete";
-    deleteBtn.addEventListener("click", deleteMemo)
+    deleteBtn.addEventListener("click", deleteMemo);
 
     //add id info to btn, so we know which btn was pressed
     updateBtn.dataset.id= memo.id;
